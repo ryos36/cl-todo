@@ -61,6 +61,7 @@
 ; '((level ((sub 2) (sub 3))))
 ; ((3 ((sub3-2 2) ((sub4 3))) ((sub3-3 3) nil)) (1 ((main2 3) nil) ((main3 4) nil)))
 (defun have-item-same-level (layer-list level)
+  (format t "have-item-same-level <~a> <~a>~%" layer-list level)
   (if (null layer-list) nil
     (let ((layer-list-level (caar layer-list)))
       (if (= layer-list-level level)
@@ -69,14 +70,15 @@
 (defun layer-list-add-a-todo (layer-list level tmp-list a-todo)
   (let ((t-level (car a-todo))
 	(t-todo (cdr a-todo)))
+    (format t "layer-list-add-a-todo <~a> <~a> <~a> <~a>~%" layer-list level tmp-list a-todo)
     (cond ((= t-level level)
 	   (push (list t-todo nil) tmp-list))
 	  ((= t-level (- level 1))
 	   (setf tmp-list
 		 (let ((new-todo (list t-todo tmp-list))
 		       (upper-list (have-item-same-level layer-list t-level)))
-		   (push new-todo upper-list)
 		   (if upper-list (pop layer-list))
+		   (push new-todo upper-list)
 		   upper-list)))
 	  ((> t-level level)
 	   (progn
@@ -103,7 +105,8 @@
 	      level v-level
 	      tmp-list v-tmp-list))
 
-      (format t "list-to-layer <~a> ~a <~a>~%" layer-list level tmp-list))
+      ;(format t "list-to-layer <~a> ~a <~a>~%" layer-list level tmp-list)
+      )
     (format t "========================~%last <~a> <~a>~%" layer-list tmp-list)
     ;(view-layer tmp-list 1)
     tmp-list
