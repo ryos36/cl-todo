@@ -76,6 +76,7 @@
 		 (let ((new-todo (list t-todo tmp-list))
 		       (upper-list (have-item-same-level layer-list t-level)))
 		   (push new-todo upper-list)
+		   (if upper-list (pop layer-list))
 		   upper-list)))
 	  ((> t-level level)
 	   (progn
@@ -88,7 +89,7 @@
 
     (format t "----------------------~%");
     (format t "<~a> ~a ~a <~a>~%" layer-list t-level level tmp-list)
-    (view-debug-layer layer-list)
+    ;(view-debug-layer layer-list)
     (format t "----------------------~%");
 
     (values layer-list t-level tmp-list)))
@@ -103,8 +104,9 @@
 	      tmp-list v-tmp-list))
 
       (format t "list-to-layer <~a> ~a <~a>~%" layer-list level tmp-list))
-    (format t "last <~a> <~a>~%" layer-list tmp-list)
-    (view-layer tmp-list 1)
+    (format t "========================~%last <~a> <~a>~%" layer-list tmp-list)
+    ;(view-layer tmp-list 1)
+    tmp-list
     ))
 ;----------------------------------------------------------------
 (setf file-name "todo.txt")
