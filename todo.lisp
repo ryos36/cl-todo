@@ -39,7 +39,7 @@
     (dotimes (i level nil) 
       (format t "+" ))
 
-    (format t " ~a ~a ~%" detail 
+    (format t " ~a, ~a ~%" detail 
 	    (if (null children)
 	      estimate
 	      (sum-children children)))
@@ -112,10 +112,23 @@
     tmp-list
     ))
 ;----------------------------------------------------------------
-(setf file-name "todo.txt")
+(let ((av (argv)))
+    (setf last-arg (elt av (- (length av) 1))))
+
+(setf
+  todo-file-name
+  (if (string= ".todo" (subseq last-arg (- (length last-arg) (length ".todo"))))
+    last-arg ))
+
+(when (null todo-file-name) 
+  (format t "Usage:~%")
+  (format t "      lisp todo.lisp your-todo.todo~%")
+  (quit))
+
+
 (setf layer-data
       (list-to-layer
-	(with-open-file (stream file-name)
+	(with-open-file (stream todo-file-name)
 	  (do ((line (read-line stream nil)
 		     (read-line stream nil)) reverse-result a-todo)
 	    ((null line) reverse-result)
